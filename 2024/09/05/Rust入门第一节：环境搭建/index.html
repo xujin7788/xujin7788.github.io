@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="rust介绍Rust是由Mozia主导开发的通用、编译型编程语言。设计准则为“安全、并发、实用”，支持函数式、并发式、过程式以及面向对象的编程风格。 Rust： 内存安全、静态类型、并发编程 为什么选择Rust? 1.高性能 2.可靠性 3.生产力（出色的文档等等） 环境搭建1.用cmd或者powerShell下载Rust(下载时候需要联网) [!NOTE] curl –proto’&#x3D;h">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rust入门第一节：环境搭建">
+<meta property="og:url" content="http://example.com/2024/09/05/Rust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/index.html">
+<meta property="og:site_name" content="爱宠旭晋技术blog">
+<meta property="og:description" content="rust介绍Rust是由Mozia主导开发的通用、编译型编程语言。设计准则为“安全、并发、实用”，支持函数式、并发式、过程式以及面向对象的编程风格。 Rust： 内存安全、静态类型、并发编程 为什么选择Rust? 1.高性能 2.可靠性 3.生产力（出色的文档等等） 环境搭建1.用cmd或者powerShell下载Rust(下载时候需要联网) [!NOTE] curl –proto’&#x3D;h">
+<meta property="og:locale">
+<meta property="og:image" content="http://example.com/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905232630130.png">
+<meta property="og:image" content="http://example.com/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905233051342.png">
+<meta property="og:image" content="http://example.com/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905233317766.png">
+<meta property="og:image" content="http://example.com/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905233409964.png">
+<meta property="og:image" content="http://example.com/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905233513441.png">
+<meta property="og:image" content="http://example.com/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905233927484.png">
+<meta property="og:image" content="http://example.com/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905234420924.png">
+<meta property="og:image" content="http://example.com/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905234459702.png">
+<meta property="og:image" content="http://example.com/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905234306413.png">
+<meta property="og:image" content="http://example.com/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905234710479.png">
+<meta property="og:image" content="http://example.com/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905234800070.png">
+<meta property="og:image" content="http://example.com/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905235056918.png">
+<meta property="og:image" content="http://example.com/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905235247110.png">
+<meta property="og:image" content="http://example.com/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905235522259.png">
+<meta property="og:image" content="http://example.com/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905235543456.png">
+<meta property="og:image" content="http://example.com/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905235736629.png">
+<meta property="og:image" content="http://example.com/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905235836725.png">
+<meta property="article:published_time" content="2024-09-05T15:58:45.693Z">
+<meta property="article:modified_time" content="2024-09-06T03:15:35.073Z">
+<meta property="article:author" content="旭晋">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905232630130.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2024/09/05/Rust入门第一节：环境搭建/"/>
+
+
+
+
+
+  <title>Rust入门第一节：环境搭建 | 爱宠旭晋技术blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">爱宠旭晋技术blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/05/Rust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="爱宠旭晋技术blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Rust入门第一节：环境搭建</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2024-09-05T23:58:45+08:00">
+                2024-09-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="rust介绍"><a href="#rust介绍" class="headerlink" title="rust介绍"></a>rust介绍</h2><p>Rust是由Mozia主导开发的通用、编译型编程语言。设计准则为“安全、并发、实用”，支持函数式、并发式、过程式以及面向对<br>象的编程风格。</p>
+<p>Rust：</p>
+<p>内存安全、静态类型、并发编程</p>
+<p>为什么选择Rust?</p>
+<p>1.高性能 2.可靠性 3.生产力（出色的文档等等）</p>
+<h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><h3 id="1-用cmd或者powerShell下载Rust-下载时候需要联网"><a href="#1-用cmd或者powerShell下载Rust-下载时候需要联网" class="headerlink" title="1.用cmd或者powerShell下载Rust(下载时候需要联网)"></a>1.用cmd或者powerShell下载Rust(下载时候需要联网)</h3><blockquote>
+<p>[!NOTE]</p>
+<p>curl –proto’&#x3D;https’–tlsv1.2 -sSf <a target="_blank" rel="noopener" href="https://sh.rustup.rs/">https://sh.rustup.rs</a> l sh</p>
+</blockquote>
+<h3 id="2-检查是否正确安装Rust-打开命令行输入"><a href="#2-检查是否正确安装Rust-打开命令行输入" class="headerlink" title="2.检查是否正确安装Rust,打开命令行输入"></a>2.检查是否正确安装Rust,打开命令行输入</h3><blockquote>
+<p>[!NOTE]</p>
+<p>rustc –version</p>
+</blockquote>
+<p>有最新版本号 证明成功安装</p>
+<p><img src="/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905232630130.png" alt="image-20240905232630130"></p>
+<h3 id="3-rust命令"><a href="#3-rust命令" class="headerlink" title="3.rust命令"></a>3.rust命令</h3><p>rustup update :升级rust工具和rustup本身</p>
+<p><img src="/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905233051342.png" alt="image-20240905233051342"></p>
+<p>rustup self uninstall:卸载rust</p>
+<p><img src="/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905233317766.png" alt="image-20240905233317766"></p>
+<p>rustup doc:在浏览器中打开离线文档</p>
+<p><img src="/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905233409964.png" alt="image-20240905233409964"></p>
+<p>rust命令补全<img src="/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905233513441.png" alt="image-20240905233513441"></p>
+<h3 id="4-Rust编译器visual-studio-code"><a href="#4-Rust编译器visual-studio-code" class="headerlink" title="4.Rust编译器visual studio code"></a>4.Rust编译器visual studio code</h3><p>vscode 插件</p>
+<p><img src="/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905233927484.png" alt="image-20240905233927484"></p>
+<h3 id="5-编写rust文件"><a href="#5-编写rust文件" class="headerlink" title="5.编写rust文件"></a>5.编写rust文件</h3><p><img src="/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905234420924.png" alt="image-20240905234420924"></p>
+<p><img src="/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905234459702.png" alt="image-20240905234459702"></p>
+<p><img src="/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905234306413.png" alt="image-20240905234306413"></p>
+<h3 id="6-认识cargo"><a href="#6-认识cargo" class="headerlink" title="6.认识cargo"></a>6.认识cargo</h3><p><img src="/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905234710479.png" alt="image-20240905234710479"></p>
+<p><img src="/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905234800070.png" alt="image-20240905234800070"></p>
+<p>cargo命令</p>
+<p>cargo build编译项目</p>
+<p><img src="/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905235056918.png" alt="image-20240905235056918"></p>
+<p>cargo run 直接运行项目</p>
+<p>cargo build –release 编译优化（给客户使用）</p>
+<p>添加依赖</p>
+<p><img src="/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905235247110.png" alt="image-20240905235247110"></p>
+<p>cargo update 升级依赖（只会升级一级 升多级需要手动修改）</p>
+<h3 id="7-配置镜像"><a href="#7-配置镜像" class="headerlink" title="7.配置镜像"></a>7.配置镜像</h3><p><img src="/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905235522259.png" alt="image-20240905235522259"></p>
+<p><img src="/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905235543456.png" alt="image-20240905235543456"></p>
+<h3 id="8-Cargo小结"><a href="#8-Cargo小结" class="headerlink" title="8.Cargo小结"></a>8.Cargo小结</h3><p><img src="/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905235736629.png" alt="image-20240905235736629"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><img src="/%5Cimages%5CRust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%5Cimage-20240905235836725.png" alt="image-20240905235836725"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#rust%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">rust介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-number">2.</span> <span class="nav-text">环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%94%A8cmd%E6%88%96%E8%80%85powerShell%E4%B8%8B%E8%BD%BDRust-%E4%B8%8B%E8%BD%BD%E6%97%B6%E5%80%99%E9%9C%80%E8%A6%81%E8%81%94%E7%BD%91"><span class="nav-number">2.1.</span> <span class="nav-text">1.用cmd或者powerShell下载Rust(下载时候需要联网)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%A3%80%E6%9F%A5%E6%98%AF%E5%90%A6%E6%AD%A3%E7%A1%AE%E5%AE%89%E8%A3%85Rust-%E6%89%93%E5%BC%80%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%BE%93%E5%85%A5"><span class="nav-number">2.2.</span> <span class="nav-text">2.检查是否正确安装Rust,打开命令行输入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-rust%E5%91%BD%E4%BB%A4"><span class="nav-number">2.3.</span> <span class="nav-text">3.rust命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Rust%E7%BC%96%E8%AF%91%E5%99%A8visual-studio-code"><span class="nav-number">2.4.</span> <span class="nav-text">4.Rust编译器visual studio code</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E7%BC%96%E5%86%99rust%E6%96%87%E4%BB%B6"><span class="nav-number">2.5.</span> <span class="nav-text">5.编写rust文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E8%AE%A4%E8%AF%86cargo"><span class="nav-number">2.6.</span> <span class="nav-text">6.认识cargo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E9%85%8D%E7%BD%AE%E9%95%9C%E5%83%8F"><span class="nav-number">2.7.</span> <span class="nav-text">7.配置镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-Cargo%E5%B0%8F%E7%BB%93"><span class="nav-number">2.8.</span> <span class="nav-text">8.Cargo小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">旭晋</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
