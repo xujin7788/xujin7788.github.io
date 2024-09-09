@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="可变变量和不可变变（Mutable&amp;Immutable）默认生成不可变变量 默认生成变量（不可变变量）：let x : i32 &#x3D; 5; 可变变量：let mut x &#x3D; 5; 常量(Constants)Rust使用const关键字来定义一个常量（定义常量时需要明确指定常量的数据类型） const THREE_HOURS : i32 &#x3D; 60 * 60 * 3; 关于常量注意以下几点：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="变量和可变类型">
+<meta property="og:url" content="http://example.com/2024/09/06/Rust%E5%9F%BA%E7%A1%80-%E5%8F%98%E9%87%8F%E5%92%8C%E5%8F%AF%E5%8F%98%E7%B1%BB%E5%9E%8B/index.html">
+<meta property="og:site_name" content="爱蔬菜的旭晋技术blog">
+<meta property="og:description" content="可变变量和不可变变（Mutable&amp;Immutable）默认生成不可变变量 默认生成变量（不可变变量）：let x : i32 &#x3D; 5; 可变变量：let mut x &#x3D; 5; 常量(Constants)Rust使用const关键字来定义一个常量（定义常量时需要明确指定常量的数据类型） const THREE_HOURS : i32 &#x3D; 60 * 60 * 3; 关于常量注意以下几点：">
+<meta property="og:locale">
+<meta property="og:image" content="http://example.com/%5Cimages%5Cimage-20240910001835993.png">
+<meta property="article:published_time" content="2024-09-06T14:35:59.000Z">
+<meta property="article:modified_time" content="2024-09-09T16:25:57.297Z">
+<meta property="article:author" content="旭晋">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/%5Cimages%5Cimage-20240910001835993.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2024/09/06/Rust基础-变量和可变类型/"/>
+
+
+
+
+
+  <title>变量和可变类型 | 爱蔬菜的旭晋技术blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">爱蔬菜的旭晋技术blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/06/Rust%E5%9F%BA%E7%A1%80-%E5%8F%98%E9%87%8F%E5%92%8C%E5%8F%AF%E5%8F%98%E7%B1%BB%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="爱蔬菜的旭晋技术blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">变量和可变类型</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2024-09-06T22:35:59+08:00">
+                2024-09-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="可变变量和不可变变（Mutable-Immutable）"><a href="#可变变量和不可变变（Mutable-Immutable）" class="headerlink" title="可变变量和不可变变（Mutable&amp;Immutable）"></a>可变变量和不可变变（Mutable&amp;Immutable）</h1><p>默认生成不可变变量</p>
+<p>默认生成变量（不可变变量）：<code>let x : i32 = 5;</code></p>
+<p>可变变量：<code>let mut x = 5;</code></p>
+<h1 id="常量-Constants"><a href="#常量-Constants" class="headerlink" title="常量(Constants)"></a>常量(Constants)</h1><p>Rust使用const关键字来定义一个常量（定义常量时需要明确指定常量的数据类型）</p>
+<p><code>const THREE_HOURS : i32 = 60 * 60 * 3;</code></p>
+<p>关于常量注意以下几点：</p>
+<blockquote>
+<p>[!NOTE]</p>
+<p>①必须显示指定的数据类型</p>
+<p>②常量名一般使用大写字母，否则编译器会报Warning</p>
+<p>③必须使用常量表达式进行赋值，即必须是编译器能计算出的值</p>
+<p>④常量不支持重定义（遮蔽）</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">const THREE_HOURS : i32 = 60 * 60 * 3;</span><br><span class="line"></span><br><span class="line">fn fmt_const () &#123;</span><br><span class="line"></span><br><span class="line">  println!(&quot;The vaule of THREE_HOURS is &#123;&#125;&quot;, THREE_HOURS);//14400</span><br><span class="line"></span><br><span class="line">  const THREE_HOURS : i32 = 60 * 60 * 4;</span><br><span class="line"></span><br><span class="line">  println!(&quot;The vaule of THREE_HOURS is &#123;&#125;&quot;, THREE_HOURS);//14400</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="静态变量（Static）"><a href="#静态变量（Static）" class="headerlink" title="静态变量（Static）"></a>静态变量（Static）</h1><blockquote>
+<p>[!NOTE]</p>
+<p>①静态变量使用static关键字进行声明，并在编译时分配内存，并且程序运行期间一直存在</p>
+<p>②静态变量可以在整个程序中共享，并且可以在多个线程之间共享</p>
+<p>③静态变量的值在运行期间不会改变，因此它们通常用于存储程序的全局状态</p>
+</blockquote>
+<p>静态变量声明：</p>
+<p><code>static NUM2:i32 = 5;</code></p>
+<p><code>static mut NUM3:i32 = 5;</code></p>
+<p>运行结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">static NUM2:i32 = 5;</span><br><span class="line">static mut NUM3:i32 = 5;</span><br><span class="line">fn static_num() &#123;</span><br><span class="line">    //NUM2 += 1;</span><br><span class="line">    // NUM3 += 1;</span><br><span class="line">    //println!(&quot;The vaule of NUM3 is &#123;&#125;&quot;, NUM3);</span><br><span class="line">    println!(&quot;The vaule of NUM2 is &#123;&#125;&quot;, NUM2);//15</span><br><span class="line">    static NUM2:i32 = 15;</span><br><span class="line">    println!(&quot;The vaule of NUM2 is &#123;&#125;&quot;, NUM2);//15</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>只有在unsate块中可以使用可变静态变量</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">static mut NUM3:i32 = 5;</span><br><span class="line">fn static_num2() &#123;</span><br><span class="line">    unsafe &#123;</span><br><span class="line">        NUM3 += 1;</span><br><span class="line">        println!(&quot;The vaule of NUM3 is &#123;&#125;&quot;, NUM3);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="变量遮蔽-Shadowing"><a href="#变量遮蔽-Shadowing" class="headerlink" title="变量遮蔽(Shadowing)"></a>变量遮蔽(Shadowing)</h1><p>变量绑定有一个作用域,它被限定只能在一个代码块中生存。另外也允许变量遮蔽</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">fn binding() &#123;</span><br><span class="line">    let long_lived_binding = 1;</span><br><span class="line">    //代码块 比main函数更小的作用域</span><br><span class="line">    &#123;</span><br><span class="line">        let short_lived_binding = 5;</span><br><span class="line">        println!(&quot;The vaule of short_lived_binding is &#123;&#125;&quot;, short_lived_binding);</span><br><span class="line">        println!(&quot;The vaule of long_lived_binding is &#123;&#125;&quot;, long_lived_binding);</span><br><span class="line">        let short_lived_binding = 10;</span><br><span class="line">        let long_lived_binding = 10;</span><br><span class="line">        println!(&quot;The vaule of short_lived_binding is &#123;&#125;&quot;, short_lived_binding);</span><br><span class="line">        println!(&quot;The vaule of long_lived_binding is &#123;&#125;&quot;, long_lived_binding);</span><br><span class="line">    &#125;</span><br><span class="line">    //println!(&quot;The vaule of short_lived_binding is &#123;&#125;&quot;, short_lived_binding);</span><br><span class="line">    println!(&quot;The vaule of long_lived_binding is &#123;&#125;&quot;, long_lived_binding);</span><br><span class="line">    let long_lived_binding = 5;</span><br><span class="line">    println!(&quot;The vaule of long_lived_binding is &#123;&#125;&quot;, long_lived_binding);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="不可变变量与常量的区别"><a href="#不可变变量与常量的区别" class="headerlink" title="不可变变量与常量的区别"></a>不可变变量与常量的区别</h1><blockquote>
+<p>[!IMPORTANT]</p>
+<p>①常量使用const进行声明，不可用不可变变量使用let进行声明</p>
+<p>②常量在编译期就确定了值，不能在运行时改变，不可变变量直到运行期才能确定下来</p>
+<p>③常量不可以修改，不可变变量可以通过shadowing来修改</p>
+<p>④常量必须声明类型，不可变变量不需要声明类型</p>
+<p>⑤常量必须使用大写字母，不可变变量不需要</p>
+</blockquote>
+<h1 id="静态变量与常量的相似之处"><a href="#静态变量与常量的相似之处" class="headerlink" title="静态变量与常量的相似之处"></a>静态变量与常量的相似之处</h1><blockquote>
+<p>[!IMPORTANT]</p>
+<p>①定义方式类型，一个使用static，一个使用const</p>
+<p>②名称都要求使用大写字，否则会报warning</p>
+<p>③都必须明确指定类型</p>
+<p>④两者都要求必须使用常量表达式进行赋值，即必须是编译器能计算出的值</p>
+<p>⑤两者都不支持重定义（遮蔽），这和变量是不同的</p>
+</blockquote>
+<h1 id="静态变量和常量的区别"><a href="#静态变量和常量的区别" class="headerlink" title="静态变量和常量的区别"></a>静态变量和常量的区别</h1><blockquote>
+<p>[!IMPORTANT]</p>
+<p>①常量在编译时被内联，但静态变量不会，在真个程序变量只有一个实例，也就是说所有引用都指向一个地址</p>
+<p>②常量不可变，静态变量和普通变量一样，默认不可变，但可以通过mut关键字定义可变</p>
+</blockquote>
+<p><img src="/%5Cimages%5Cimage-20240910001835993.png" alt="image-20240910001835993"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2024/09/05/Rust%E5%85%A5%E9%97%A8%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" rel="next" title="Rust入门第一节：环境搭建">
+                <i class="fa fa-chevron-left"></i> Rust入门第一节：环境搭建
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%AF%E5%8F%98%E5%8F%98%E9%87%8F%E5%92%8C%E4%B8%8D%E5%8F%AF%E5%8F%98%E5%8F%98%EF%BC%88Mutable-Immutable%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">可变变量和不可变变（Mutable&amp;Immutable）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E9%87%8F-Constants"><span class="nav-number">2.</span> <span class="nav-text">常量(Constants)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F%EF%BC%88Static%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">静态变量（Static）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E9%81%AE%E8%94%BD-Shadowing"><span class="nav-number">4.</span> <span class="nav-text">变量遮蔽(Shadowing)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%8D%E5%8F%AF%E5%8F%98%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B8%B8%E9%87%8F%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">5.</span> <span class="nav-text">不可变变量与常量的区别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B8%B8%E9%87%8F%E7%9A%84%E7%9B%B8%E4%BC%BC%E4%B9%8B%E5%A4%84"><span class="nav-number">6.</span> <span class="nav-text">静态变量与常量的相似之处</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F%E5%92%8C%E5%B8%B8%E9%87%8F%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">7.</span> <span class="nav-text">静态变量和常量的区别</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">旭晋</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
